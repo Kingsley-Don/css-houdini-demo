@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS Houdini Paint Api Demo</title>
+  <link rel="stylesheet" href="./app.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+</head>
+
+<body>
+  <div class="el">
+    <div class="start-text text">
+      <div class="word">start word</div>
+      <div class="md5"></div>
+      <div class="color"></div>
+      <div class="year">2002</div>
+    </div>
+    <div class="end-text text">
+      <div class="year">2017</div>
+      <div class="color"></div>
+      <div class="md5"></div>
+      <div class="word">end word</div>
+    </div>
+  </div>
+
+  <script src="./data.js"></script>
+  <script>
+    CSS.paintWorklet.addModule('paint.js');
+    CSS.registerProperty({
+      name: '--start-color',
+      syntax: '<color>',
+      initialValue: '#000',
+    });
+    CSS.registerProperty({
+      name: '--end-color',
+      syntax: '<color>',
+      initialValue: '#fff',
+    });
+    let i = 0;
+    const len = data.length;
+    window.onload = function () {
+      const el = $('.el');
+      const start = {
+        year: $('.start-text .year'),
+        word: $('.start-text .word'),
+        color: $('.start-text .color'),
+        md5: $('.start-text .md5'),
+      };
+      const end = {
+        year: $('.end-text .year'),
+        word: $('.end-text .word'),
+        color: $('.end-text .color'),
+        md5: $('.end-text .md5'),
+      }
+      console.log(el)
+      const changeColor = setInterval(() => {
+        if (i < len - 1) {
+          const startMd5 = md5(data[i].word);
+          const startColor = `#${startMd5.slice(0, 6)}`;
+          start.year.text(data[i].year);
+          start.word.text(data[i].word);
+          start.md5.text(startMd5);
+          start.color.text(startColor);
+          el.css('--start-color', startColor);
+          i += 1;
+          const endMd5 = md5(data[i].word);
+          const endColor = `#${endMd5.slice(0, 6)}`;
+          end.year.text(data[i].year);
+          end.word.text(data[i].word);
+          end.md5.text(endMd5);
+          end.color.text(endColor);
+          el.css('--end-color', endColor);
+        } else {
+          clearInterval(changeColor);
+        }
+      }, 3000)
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.el {
+  height: 100vh;
+  background-image: paint(el);
+  transition-duration: 3s;
+  transition-property: --start-color, --end-color;
+  --start-color: #aa0000;
+  --end-color: #af8c9b;
+}
+
+.text {
+  mix-blend-mode: screen;
+  color: white;
+  /* opacity: 0.7; */
+  position: fixed;
+  padding: 4em;
+  filter: grayscale(1);
+  text-shadow: 1px 1px 2px black; 
+}
+
+.text div {
+  padding: 6px 0;
+}
+
+.start-text {
+  top: 0;
+  left: 0;
+  text-align: left;
+}
+
+.end-text {
+  bottom: 0;
+  right: 0;
+  text-align: right;
+}
+
+.word {
+  font-size: 7em;
+}
+
+.year {
+  font-size: 2em;
+}
